@@ -14,16 +14,23 @@ public class AttackButton : MonoBehaviour
         Player = GameObject.Find("Player").GetComponent<PlayerMoveScript>();
     }
 
-    private void OnMouseDown()
+    public void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void AttackOnMouseDown()
     {
         if (Time.timeScale != 0)
         {
             distanceSprite.SetActive(true);
+            distanceSprite.transform.position = ParentTransform.position;
+            gameObject.transform.position = ParentTransform.position;
             Player.Target(true);
         }
     }
 
-    private void OnMouseDrag()
+    public void AttackOnMouseDrag()
     {
         if(Time.timeScale != 0)
         {
@@ -41,7 +48,7 @@ public class AttackButton : MonoBehaviour
 
         }
     }
-    private void OnMouseUp()
+    public void AttackOnMouseUp()
     {
 
         if (Time.timeScale != 0)

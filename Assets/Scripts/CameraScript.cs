@@ -23,6 +23,7 @@ public class CameraScript : MonoBehaviour
     public GameObject GameUI;
     public GameObject MenuUI;
     public GameObject SmithyUI;
+    public GameObject FastStart;
 
     public GameObject plDeath;
 
@@ -79,7 +80,7 @@ public class CameraScript : MonoBehaviour
         }
     }
 
-    public void Death()
+    public void Death(bool hack)
     {
         Player.transform.position = new Vector2(0, -10);
         position = new Vector3(0, 0, -10);
@@ -87,7 +88,10 @@ public class CameraScript : MonoBehaviour
         gamestart = false;
         GameUI.SetActive(false);
         plDeath.SetActive(true);
-        SaveProgressScript.SaveProgress();
+        if (!hack)
+        {
+            SaveProgressScript.SaveProgress();
+        }
     }
 
     public void Shaking(float time)
@@ -128,6 +132,14 @@ public class CameraScript : MonoBehaviour
         GameUI.SetActive(true);
         MenuUI.SetActive(false);
         Player.StartGame();
+        if (PlayerPrefs.GetInt("QuantityFastStart", 0) == 0)
+        {
+            FastStart.SetActive(false);
+        }
+        else
+        {
+            StartCoroutine(DeactivateFastStart());
+        }
     }
 
     public void TrainingOne()
@@ -147,17 +159,20 @@ public class CameraScript : MonoBehaviour
         TraningUI[1].SetActive(false);
         TraningUI[2].SetActive(true);
     }
+
     public void TrainingThree()
     {
         TraningUI[2].SetActive(false);
         TraningUI[5].SetActive(true);
         Time.timeScale = timeSpeed;
     }
+
     public void TrainingFour()
     {
         TraningUI[3].SetActive(false);
         Time.timeScale = timeSpeed;
     }
+
     public void TrainingFive()
     {
         PlayerPrefs.SetInt("Trening", 1);
@@ -168,7 +183,6 @@ public class CameraScript : MonoBehaviour
     {
         SceneManager.LoadScene(value);
     }
-
 
     public void MovePosition(int move)
     {
@@ -212,5 +226,9 @@ public class CameraScript : MonoBehaviour
         gameObject.transform.position = new Vector3(0, transform.position.y, transform.position.z);
     }
 
-    
+    IEnumerator DeactivateFastStart()
+    {
+        yield return new WaitForSeconds(10f);
+        FastStart.SetActive(false);
+    }
 }

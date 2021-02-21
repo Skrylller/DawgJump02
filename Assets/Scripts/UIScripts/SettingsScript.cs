@@ -10,8 +10,8 @@ public class SettingsScript : MonoBehaviour
 
     private void Start()
     {
-        int a = new int();
-        a = PlayerPrefs.GetInt("MasterVolume", 0);
+        float a;
+        a = PlayerPrefs.GetFloat("MasterVolume", 0);
         if(a == 0)
         {
             Mixer.audioMixer.SetFloat("MasterVolume", 0);

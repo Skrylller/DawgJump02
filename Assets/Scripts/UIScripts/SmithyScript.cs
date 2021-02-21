@@ -23,7 +23,8 @@ public class SmithyScript : MonoBehaviour
     public enum Consumables : int
     {
         None = 1,
-        SecondHealth
+        SecondHealth,
+        FastStart
     }
 
     public Consumables TypeConsumables = Consumables.None;
@@ -106,6 +107,9 @@ public class SmithyScript : MonoBehaviour
             {
                 case Consumables.SecondHealth:
                     text.text = ("Количество дополнительных жизней: " + PlayerPrefs.GetInt("QuantitySecondHealth", 0).ToString() + "\nСтоимость покупки: " + Mathf.Abs(levels[0].Cost).ToString());
+                    break;
+                case Consumables.FastStart:
+                    text.text = ("Количество быстрых стартов: " + PlayerPrefs.GetInt("QuantityFastStart", 0).ToString() + "\nСтоимость покупки: " + Mathf.Abs(levels[0].Cost).ToString());
                     break;
             }
         }

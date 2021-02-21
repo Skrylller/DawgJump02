@@ -30,21 +30,11 @@ public class SaveProgressScript : MonoBehaviour
 
     private void Start()
     {
-        BestPoint = PlayerPrefs.GetInt("BeastPoint", 0);
+        BestPoint = PlayerPrefs.GetInt("BeastPoint2", 0);
         Scrap = PlayerPrefs.GetInt("Scrap", 0);
 
         PlayGamesPlatform.Activate();
-        Social.localUser.Authenticate((bool success) =>
-        {
-            if (success)
-            {
-                Social.ReportScore(BestPoint, Liderboard, (bool success2) => { });
-            }
-            else
-            {
-
-            }
-        });
+        Social.localUser.Authenticate((bool success) => {});
     }
 
 
@@ -63,14 +53,14 @@ public class SaveProgressScript : MonoBehaviour
         if (point > BestPoint)
         {
             BestPoint = point;
-            PlayerPrefs.SetInt("BeastPoint", BestPoint);
-            Social.ReportScore(BestPoint, Liderboard, (bool success2) => { });
+            PlayerPrefs.SetInt("BeastPoint2", BestPoint);
             RestartPointText.SetNewBestPointText(point);
         }
         else
         {
             RestartPointText.NewPointText(point);
         }
+        Social.ReportScore(BestPoint, Liderboard, (bool success2) => { });
     }
     
     public bool ChangeScrap(int ValueChange)

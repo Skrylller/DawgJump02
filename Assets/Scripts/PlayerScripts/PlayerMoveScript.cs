@@ -30,6 +30,7 @@ public class PlayerMoveScript : MonoBehaviour
     private bool AttackPause;
     private bool ChageJumpShild;
     private bool wasReborn;
+    private bool hack;
 
     private byte shieldnum = 0;
 
@@ -58,14 +59,17 @@ public class PlayerMoveScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             ChangeJump(15f);
+            hack = true;
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
             transform.position = new Vector2(transform.position.x, transform.position.y + 100);
+            hack = true;
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
             StartCoroutine(Shild(60f));
+            hack = true;
         }
 
         if (mode.mode == 0)
@@ -96,7 +100,7 @@ public class PlayerMoveScript : MonoBehaviour
         {
             if (gameObject.layer == 12 || wasReborn || PlayerPrefs.GetInt("QuantitySecondHealth", 0) == 0)
             {
-                CameraScript.Death();
+                CameraScript.Death(hack);
             }
             else
             {
@@ -154,18 +158,34 @@ public class PlayerMoveScript : MonoBehaviour
 
     public void Target(Vector3 a)
     {
-        TargetWave.transform.LookAt(a, Vector3.forward);
+        if (a == transform.position)
+        {
+            TargetWave.transform.LookAt(new Vector2(transform.position.x, transform.position.y + 1), Vector3.forward);
+        }
+        else
+        {
+            TargetWave.transform.LookAt(a, Vector3.forward);
+        }
     }
     public void Target(bool onTarget)
     {
-        TargetWave.SetActive(onTarget);
+        if (!onTarget || AttackPause)
+        {
+            TargetWave.SetActive(onTarget);
+        }
     }
 
     public void Attack(Vector3 a)
     {
         if (AttackPause && gameObject.layer == 8 && Time.timeScale != 0)
         {
+
             float r = Mathf.Sqrt(Mathf.Pow(transform.position.x - a.x, 2) + Mathf.Pow(transform.position.y - a.y, 2));
+            if(r == 0)
+            {
+                r = 1;
+                a.y += 1;
+            }
             AttackPoint = new Vector3(((a.x - transform.position.x) / r * AttackDistance) + transform.position.x, ((a.y - transform.position.y) / r * AttackDistance) + transform.position.y, transform.position.z);
             AttackWave.SetActive(true);
             if (PlayerPrefs.GetInt("AttackManagmentUI", 0) == 1)
@@ -215,6 +235,18 @@ public class PlayerMoveScript : MonoBehaviour
         mode.SetMode(2);
         StartCoroutine(Shild(8f));
         wasReborn = true;
+    }
+
+    public void FastStart()
+    {
+        Audio.AudioPlay(5); //smoke on stone sound
+        rb_Player.velocity = new Vector2(rb_Player.velocity.x, 40f);
+        if (!ChageJumpShild)
+        {
+            IndicatorShild.SetActive(true);
+            shieldnum++;
+            ChageJumpShild = true;
+        }
     }
 
     public void StartGame()

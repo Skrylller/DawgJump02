@@ -9,7 +9,8 @@ public class ConsumablesScript : MonoBehaviour
     public enum Consumables : int
     {
         None = 1,
-        SecondHealth
+        SecondHealth,
+        FastStart
     }
 
     public Consumables TypeConsumables = Consumables.None;
@@ -23,6 +24,9 @@ public class ConsumablesScript : MonoBehaviour
             case Consumables.SecondHealth:
                 quantity = PlayerPrefs.GetInt("QuantitySecondHealth", 0);
                 break;
+            case Consumables.FastStart:
+                quantity = PlayerPrefs.GetInt("QuantityFastStart", 0);
+                break;
         }
     }
 
@@ -33,6 +37,9 @@ public class ConsumablesScript : MonoBehaviour
         {
             case Consumables.SecondHealth:
                 PlayerPrefs.SetInt("QuantitySecondHealth", quantity);
+                break;
+            case Consumables.FastStart:
+                PlayerPrefs.SetInt("QuantityFastStart", quantity);
                 break;
         }
     }
@@ -45,6 +52,9 @@ public class ConsumablesScript : MonoBehaviour
             {
                 case Consumables.SecondHealth:
                     PlayerPrefs.SetInt("QuantitySecondHealth", quantity);
+                    break;
+                case Consumables.FastStart:
+                    PlayerPrefs.SetInt("QuantityFastStart", quantity);
                     break;
             }
             return true;

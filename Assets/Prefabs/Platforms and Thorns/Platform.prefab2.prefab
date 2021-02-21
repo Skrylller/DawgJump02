@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -177,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac50d82c15e5b84189fc8511bc4f212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 8861401057931541315}
+  posSprite: {fileID: 8861401057931541315}
 --- !u!114 &7496079461478157357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +208,7 @@ MonoBehaviour:
   - {fileID: 4362499489676827102, guid: 1eddff9a8b674094aa4dc72f48e6e35d, type: 3}
   - {fileID: 7971478054663822360, guid: e9e472818a6b6bc49a0c39dfbd0e2144, type: 3}
   - {fileID: 8257099708138890209, guid: dba5e0a9e0fde724a97bfe32b2bb09f3, type: 3}
+  Chance: 20
 --- !u!114 &6967465301993057932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DistanceFromCamera: 5.5
+  isDestroyer: 0
 --- !u!82 &4790392427909552381
 AudioSource:
   m_ObjectHideFlags: 0

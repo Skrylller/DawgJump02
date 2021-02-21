@@ -15,7 +15,7 @@ public class BeastPointScript : MonoBehaviour
     private void Start()
     {
         int point;
-        point = PlayerPrefs.GetInt("BeastPoint", 0);
+        point = PlayerPrefs.GetInt("BeastPoint2", 0);
         if(point != 0)
         {
             text.text = ("Лучший результат:\n" + point.ToString());

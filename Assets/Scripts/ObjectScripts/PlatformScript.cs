@@ -8,7 +8,8 @@ public class PlatformScript : MonoBehaviour
     private Rigidbody2D pl_Rigidbody2D;
     private Transform Camera;
     private ParticlePlatformScript Particle;
-    public Transform Sprite;
+    public Transform posSprite;
+    private SpriteRenderer Sprite;
     private float DistanceDestroy;
 
     private void Awake()
@@ -17,11 +18,14 @@ public class PlatformScript : MonoBehaviour
         Particle = GetComponent<ParticlePlatformScript>();
         pl_Rigidbody2D = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         pl_Transform = GameObject.Find("Player").GetComponent<Transform>();
+        Sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()
     {
         DistanceDestroy = 5f;
+        float color = Random.Range(1f, 0.7f);
+        Sprite.color = new Vector4(color, color, color, 1f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -54,13 +58,13 @@ public class PlatformScript : MonoBehaviour
 
     private void PlatformDown()
     {
-        Vector3 pos = Sprite.position;
-        Sprite.position = Vector3.MoveTowards(Sprite.position, new Vector3(Sprite.position.x, Sprite.position.y - 0.05f, Sprite.position.z), Time.deltaTime);
+        Vector3 pos = posSprite.position;
+        posSprite.position = Vector3.MoveTowards(posSprite.position, new Vector3(posSprite.position.x, posSprite.position.y - 0.05f, posSprite.position.z), Time.deltaTime);
         StartCoroutine(PauseBack(pos));
     }
     IEnumerator PauseBack(Vector3 pos)
     {
         yield return new WaitForSeconds(0.1f);
-        Sprite.position = pos;
+        posSprite.position = pos;
     }
 }
