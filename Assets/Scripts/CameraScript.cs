@@ -158,18 +158,22 @@ public class CameraScript : MonoBehaviour
     {
         TraningUI[1].SetActive(false);
         TraningUI[2].SetActive(true);
+        TraningUI[6].SetActive(true);
     }
 
     public void TrainingThree()
     {
         TraningUI[2].SetActive(false);
         TraningUI[5].SetActive(true);
+        TraningUI[6].SetActive(true);
         Time.timeScale = timeSpeed;
     }
 
     public void TrainingFour()
     {
         TraningUI[3].SetActive(false);
+        TraningUI[5].SetActive(true);
+        TraningUI[6].SetActive(true);
         Time.timeScale = timeSpeed;
     }
 

@@ -56,17 +56,17 @@ public class PlayerMoveScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             ChangeJump(15f);
             hack = true;
         }
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             transform.position = new Vector2(transform.position.x, transform.position.y + 100);
             hack = true;
         }
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Keypad9))
         {
             StartCoroutine(Shild(60f));
             hack = true;
@@ -158,14 +158,13 @@ public class PlayerMoveScript : MonoBehaviour
 
     public void Target(Vector3 a)
     {
-        if (a == transform.position)
+        if (Vector2.Distance(a, transform.position) < 0.1f)
         {
-            TargetWave.transform.LookAt(new Vector2(transform.position.x, transform.position.y + 1), Vector3.forward);
+            a.y = transform.position.y + 1;
+            a.x = transform.position.x - 0.025f;
         }
-        else
-        {
-            TargetWave.transform.LookAt(a, Vector3.forward);
-        }
+
+        TargetWave.transform.LookAt(a, Vector3.forward);
     }
     public void Target(bool onTarget)
     {
@@ -177,15 +176,20 @@ public class PlayerMoveScript : MonoBehaviour
 
     public void Attack(Vector3 a)
     {
+        float r;
         if (AttackPause && gameObject.layer == 8 && Time.timeScale != 0)
         {
-
-            float r = Mathf.Sqrt(Mathf.Pow(transform.position.x - a.x, 2) + Mathf.Pow(transform.position.y - a.y, 2));
-            if(r == 0)
+            if (Vector2.Distance(a, transform.position) < 0.1f || a.x == 0 && a.y == 0)
             {
                 r = 1;
-                a.y += 1;
+                a.y = transform.position.y + 1;
+                a.x = transform.position.x - 0.025f;
             }
+            else
+            {
+                r = Mathf.Sqrt(Mathf.Pow(transform.position.x - a.x, 2) + Mathf.Pow(transform.position.y - a.y, 2));
+            }
+
             AttackPoint = new Vector3(((a.x - transform.position.x) / r * AttackDistance) + transform.position.x, ((a.y - transform.position.y) / r * AttackDistance) + transform.position.y, transform.position.z);
             AttackWave.SetActive(true);
             if (PlayerPrefs.GetInt("AttackManagmentUI", 0) == 1)

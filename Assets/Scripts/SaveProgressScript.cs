@@ -32,9 +32,11 @@ public class SaveProgressScript : MonoBehaviour
     {
         BestPoint = PlayerPrefs.GetInt("BeastPoint2", 0);
         Scrap = PlayerPrefs.GetInt("Scrap", 0);
-
-        PlayGamesPlatform.Activate();
-        Social.localUser.Authenticate((bool success) => {});
+        if(Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            PlayGamesPlatform.Activate();
+            Social.localUser.Authenticate((bool success) => { });
+        }
     }
 
 
@@ -45,7 +47,7 @@ public class SaveProgressScript : MonoBehaviour
             point = (int)((cam_Transform.position.y - 5f) * 100);
             pointText.SetPointText(point);
         }
-        ScrapPlus();
+        //ScrapPlus();
     }
 
     public void SaveProgress()
@@ -79,7 +81,7 @@ public class SaveProgressScript : MonoBehaviour
 
     public void ScrapPlus()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Keypad0))
         {
             ChangeScrap(10);
         }

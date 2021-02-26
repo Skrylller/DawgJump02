@@ -335,7 +335,6 @@ public class GenerationScript : MonoBehaviour
 
     public void CheckEnemy()
     {
-        Debug.Log("gg");
         StartCoroutine(CheckEnemyCourotine(1, 10));
     }
 

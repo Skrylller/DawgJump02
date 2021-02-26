@@ -29,6 +29,7 @@ public class MovingEnemy : MonoBehaviour
     public float SpeedMultiplier;
     public float Speed;
     public int Health;
+    private int maxHealth;
 
 
     public void Awake()
@@ -43,6 +44,7 @@ public class MovingEnemy : MonoBehaviour
 
     public void Start()
     {
+        maxHealth = Health;
         SpeedMultiplier = 1;
     }
 
@@ -56,18 +58,22 @@ public class MovingEnemy : MonoBehaviour
 
     public void TakeDammage()
     {
-        Dammage = true;
-        gameObject.layer = 0;
-        SpeedMultiplier = 0;
         Audio.AudioPlay(2);
         StartCoroutine(DammagePause());
         Health--;
         if (Health <= 0)
         {
+            Health = maxHealth;
             Generator.CheckEnemy();
             Audio.AudioPlay(1);
             Particle.SpawnParticles();
             gameObject.SetActive(false);
+        }
+        else
+        {
+            Dammage = true;
+            gameObject.layer = 0;
+            SpeedMultiplier = 0;
         }
     }
     public IEnumerator DammagePause()

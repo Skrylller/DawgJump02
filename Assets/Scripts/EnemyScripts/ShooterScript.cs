@@ -10,17 +10,25 @@ public class ShooterScript : MovingEnemy
 
     private void Update()
     {
-        if(Mathf.Abs(AimPosition.x - gameObject.transform.position.x) < 0.1f)
+        if (Dammage)
         {
-            if (!stopAim)
+            transform.position = new Vector2(Random.Range(AimPosition.x - 0.2f, AimPosition.x + 0.2f), Random.Range(AimPosition.y - 0.2f, AimPosition.y + 0.2f));
+            transform.position = Vector2.MoveTowards(transform.position, AimPosition, Time.deltaTime * 10);
+        }
+        else
+        {
+            if (Mathf.Abs(AimPosition.x - gameObject.transform.position.x) < 0.1f)
             {
-                Shoot();
-                stopAim = true;
-                StartCoroutine(ChangeAim());
+                if (!stopAim)
+                {
+                    Shoot();
+                    stopAim = true;
+                    StartCoroutine(ChangeAim());
+                }
             }
-        } 
-        AimPosition = new Vector2(AimPosition.x, MainCamera.position.y + 4f + Ydeviation);
-        transform.position = Vector2.MoveTowards(transform.position, AimPosition, Time.deltaTime * Speed * SpeedMultiplier);
+            AimPosition = new Vector2(AimPosition.x, MainCamera.position.y + 4f + Ydeviation);
+            transform.position = Vector2.MoveTowards(transform.position, AimPosition, Time.deltaTime * Speed * SpeedMultiplier);
+        }
     }
 
     private void Shoot()

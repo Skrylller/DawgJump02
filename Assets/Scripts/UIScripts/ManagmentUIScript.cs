@@ -11,8 +11,8 @@ public class ManagmentUIScript : MonoBehaviour
 
     private void Awake()
     {
-        CharacterManagmentUI[PlayerPrefs.GetInt("CharacterManagmentUI", 0)].SetActive(true);
-        AttackManagmentUI[PlayerPrefs.GetInt("AttackManagmentUI", 0)].SetActive(true);
+        CharacterManagmentUI[PlayerPrefs.GetInt("CharacterManagmentUI", 1)].SetActive(true);
+        AttackManagmentUI[PlayerPrefs.GetInt("AttackManagmentUI", 1)].SetActive(true);
 
         for (int i = 0; i < UI.Length; i++)
         {

@@ -1,42 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class AttackScript : MonoBehaviour
+public class AttackScript : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     private PlayerMoveScript Player;
     private Camera Camera;
-    private BoxCollider2D Col;
+    private RectTransform Size;
     private RectTransform trans;
     public bool isFront;
     public GameObject Center;
     public Transform Parent;
     private AttackButton attackButton;
+    private bool isDown;
 
     private void Awake()
     {
         Player = GameObject.Find("Player").GetComponent<PlayerMoveScript>();
         Camera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        Col = GetComponent<BoxCollider2D>();
+        Size = GetComponent<RectTransform>();
         trans = GetComponent<RectTransform>();
-        Col.size = new Vector2(Col.size.x, Camera.orthographicSize * 240);
+        Size.sizeDelta = new Vector2(Size.sizeDelta.x, Camera.orthographicSize * 240);
         if (!isFront)
         {
             attackButton = GetComponentInChildren<AttackButton>();
         }
 
-        trans.anchoredPosition = new Vector2(Col.transform.position.x, Camera.orthographicSize * 200);
+        trans.anchoredPosition = new Vector2(Size.position.x, Camera.orthographicSize * 200);
     }
-
-    public void Update()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        Col.size = new Vector2(Col.size.x, Camera.orthographicSize * 240);
-        trans.anchoredPosition = new Vector2(Col.transform.position.x, Camera.orthographicSize * 200);
-    }
-
-    private void OnMouseDown()
-    {
-        if(Time.timeScale > 0)
+        this.isDown = true;
+        if (Time.timeScale > 0)
         {
             if (isFront)
             {
@@ -51,25 +47,9 @@ public class AttackScript : MonoBehaviour
         }
     }
 
-    private void OnMouseDrag()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        if (Time.timeScale > 0)
-        {
-            if (isFront)
-            {
-                Vector3 Aim = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Aim = new Vector3(Aim.x, Aim.y, 0);
-                Player.Target(Aim);
-            }
-            else
-            {
-                attackButton.AttackOnMouseDrag();
-            }
-        }
-    }
-
-    private void OnMouseUp()
-    {
+        this.isDown = false;
         if (Time.timeScale > 0)
         {
             if (isFront)
@@ -85,5 +65,28 @@ public class AttackScript : MonoBehaviour
                 Center.SetActive(false);
             }
         }
+    }
+
+    void Update()
+    {
+        Size.sizeDelta = new Vector2(Size.sizeDelta.x, Camera.orthographicSize * 240);
+        trans.anchoredPosition = new Vector2(Size.position.x, Camera.orthographicSize * 200);
+        if (!this.isDown) return;
+
+
+        if (Time.timeScale > 0)
+        {
+            if (isFront)
+            {
+                Vector3 Aim = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Aim = new Vector3(Aim.x, Aim.y, 0);
+                Player.Target(Aim);
+            }
+            else
+            {
+                attackButton.AttackOnMouseDrag();
+            }
+        }
+
     }
 }
